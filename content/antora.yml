@@ -1,0 +1,9 @@
+---
+name: modules
+version: master
+
+asciidoc:
+  attributes:
+    lab_name: "Install Software Using Package Managers (Admin 101)"
+    release-version: master
+    page-pagination: true

@@ -1,0 +1,24 @@
+---
+antora:
+  name: modules
+  dir: www
+  modules:
+    - name: "01-package-manager"
+      label: "Package Manager"
+      solveButton: true
+    - name: "02-update"
+      label: "Update"
+      solveButton: true
+    - name: "03-history"
+      label: "History"
+      solveButton: true
+    - name: "04-rpm-queries"
+      label: "Rpm Queries"
+      solveButton: true
+    - name: "05-validation"
+      label: "Validation"
+      solveButton: true
+
+tabs:
+  - name: ">_ terminal"
+    url: /wetty

@@ -1,0 +1,60 @@
+The `+list+` subcommand is useful for finding out which packages have
+available updates on the system.
+
+[source,bash]
+----
+dnf list updates
+----
+
+Many packages on this system have updates available. Specifying a
+package name with `+dnf update+` will constrain this operation to only
+look for that package.
+
+____
+_NOTE:_ If you instead want to make sure your entire system is up to
+date, running `+dnf update+` without any other arguments apply updates
+for all packages on your system (including YUM itself).
+____
+
+At the time of writing this lab, the *bash* package required an update.
+Let’s update *bash*. Use the `+-y+` option to automatically say yes to
+any prompts for the purposes of this lab.
+
+Feel free to update any package listed.
+
+[source,bash]
+----
+dnf -y update bash
+----
+
+____
+_NOTE:_ You sometimes see the subcommand `+upgrade+` being used somewhat
+interchangeably with `+update+`. The difference between these two
+subcommands is that `+upgrade+` will remove any obsolete packages from
+the system. Often the configuration for DNF is such that these
+subcommands will both carry out the `+upgrade+` operation.
+____
+
+== Removing a package
+
+Removing a package follows the same theme of simplicity.
+
+[source,bash]
+----
+dnf -y remove httpd
+----
+
+The extensive output shows you information about which dependent RPMs
+were removed as part of this transaction.
+
+Use the `+list+` subcommand to confirm that the package has been
+uninstalled:
+
+[source,bash]
+----
+dnf list httpd
+----
+
+The package is now listed as _Available_ rather than _Installed_. The
+next step will walk you through `+dnf history+` which provides some more
+powerful tools for rolling back package transactions.

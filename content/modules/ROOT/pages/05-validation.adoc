@@ -1,0 +1,50 @@
+If a program is suddenly misbehaving, it could be related to some key
+files not being installed properly. `+rpm+` has a validation option
+(`+-V+`) which will compare the local files with the expected files for
+the package. Remove a file from the Wireshark package to test out this
+validation functionality:
+
+[source,bash]
+----
+rm -f /usr/share/icons/hicolor/256x256/apps/wireshark.png
+----
+
+Use the `+-V+` option with `+rpm+` to check the file status of
+Wireshark.
+
+[source,bash]
+----
+rpm -V wireshark
+----
+
+Now that you have seen there is a missing file, reinstall the Wireshark
+package to return it to its proper state:
+
+[source,bash]
+----
+dnf -y reinstall wireshark
+----
+
+Check that *wireshark.png* has been restored:
+
+[source,bash]
+----
+ls /usr/share/icons/hicolor/256x256/apps/
+----
+
+The command `+rpm -V+` is useful for more than just finding missing
+files. This command can inform the user if any files have changed since
+installation. To test this out, run the validation command on the PAM
+package.
+
+[source,bash]
+----
+rpm -V pam
+----
+
+This query returns two files with unexpected criteria, *password-auth*
+and *system-auth*. The first column of this output tells you that both
+of these files have an unexpected size, checksum, and timestamp. Both of
+these files are configuration files, so it makes sense that they would
+be modified after installation to suit the purpose of this particular
+system.

@@ -1,0 +1,51 @@
+Package managers are programs which install, update, and remove
+software. Doing these operations by hand would be tedious and prone to
+mistakes. Bundling these functionalities into a single tool gives users
+a more streamlined experience.
+
+DNF has even more utility because it performs dependency resolution
+whenever it installs, removes, or updates software. The upcoming steps
+will give examples of how to use DNF to streamline your package
+management.
+
+== Installing a package with `+dnf+`
+
+Install the network analysis application Wireshark using `+dnf+`. This
+application is useful for troubleshooting network packets that are
+traveling in and out of your system. This functionality in particular is
+not important to this lab, this application was picked simply because it
+serves as a good test subject for the upcoming examples.
+
+[source,bash]
+----
+dnf -y install wireshark
+----
+
+____
+_Note:_ The `+-y+` option will automatically answer yes to any prompts
+during the installation. Using this option is not best practice when
+installing software on your own system, but it is useful for
+streamlining some operations in this lab.
+____
+
+This installation generates a large output, so here is a high level
+summary of what each section means. The first section shows all of the
+packages that must be installed as dependencies for Wireshark:
+
+The next section of the output shows a verification status for each
+dependent package. In this case, DNF made sure that 36 other packages
+were up to date.
+
+The final section of the output is a list of all of the packages that
+were installed in support of Wireshark’s installation.
+
+You can verify this installation with the `+dnf list+` command:
+
+[source,bash]
+----
+dnf list wireshark
+----
+
+This shows how powerful DNF is, as a single command will take care of
+the installation seamlessly. Next you will see how to update and remove
+packages with `+dnf+`.
