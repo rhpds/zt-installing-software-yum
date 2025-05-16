@@ -4,32 +4,62 @@ files not being installed properly. `+rpm+` has a validation option
 the package. Remove a file from the Wireshark package to test out this
 validation functionality:
 
-[source,bash]
+.Command
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 rm -f /usr/share/icons/hicolor/256x256/apps/wireshark.png
 ----
 
+This command has no expected output.
+
 Use the `+-V+` option with `+rpm+` to check the file status of
 Wireshark.
 
-[source,bash]
+.Command
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 rpm -V wireshark
+----
+
+.Output
+[source,text]
+----
+missing     /usr/share/icons/hicolor/256x256/apps/wireshark.png
 ----
 
 Now that you have seen there is a missing file, reinstall the Wireshark
 package to return it to its proper state:
 
-[source,bash]
+.Command
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 dnf -y reinstall wireshark
 ----
 
+.Output
+[source,text]
+----
+<< OUTPUT ABRIDGED >>
+Arch   Version        Repository                        Size
+===================================================================
+Reinstalling:
+wireshark
+x86_64 1:3.4.10-6.el9 rhel-9-for-x86_64-appstream-rpms 3.7 M
+<< OUTPUT ABRIDGED >>
+----
+
 Check that *wireshark.png* has been restored:
 
-[source,bash]
+.Command
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 ls /usr/share/icons/hicolor/256x256/apps/
+----
+
+.Output
+[source,text]
+----
+wireshark.png
 ----
 
 The command `+rpm -V+` is useful for more than just finding missing
@@ -37,13 +67,23 @@ files. This command can inform the user if any files have changed since
 installation. To test this out, run the validation command on the PAM
 package.
 
-[source,bash]
+.Command
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 rpm -V pam
 ----
 
-This query returns two files with unexpected criteria, *password-auth*
-and *system-auth*. The first column of this output tells you that both
+.Output
+[source,text]
+----
+....L....  c /etc/pam.d/fingerprint-auth
+....L....  c /etc/pam.d/password-auth
+....L....  c /etc/pam.d/postlogin
+....L....  c /etc/pam.d/smartcard-auth
+....L....  c /etc/pam.d/system-auth
+----
+
+This query returns files with unexpected criteria. The first column of this output tells you that both
 of these files have an unexpected size, checksum, and timestamp. Both of
 these files are configuration files, so it makes sense that they would
 be modified after installation to suit the purpose of this particular

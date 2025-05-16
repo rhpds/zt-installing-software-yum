@@ -16,34 +16,79 @@ traveling in and out of your system. This functionality in particular is
 not important to this lab, this application was picked simply because it
 serves as a good test subject for the upcoming examples.
 
-[source,bash]
+.Command
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 dnf -y install wireshark
 ----
 
-____
-_Note:_ The `+-y+` option will automatically answer yes to any prompts
+NOTE: The `+-y+` option will automatically answer yes to any prompts
 during the installation. Using this option is not best practice when
 installing software on your own system, but it is useful for
 streamlining some operations in this lab.
-____
 
 This installation generates a large output, so here is a high level
 summary of what each section means. The first section shows all of the
 packages that must be installed as dependencies for Wireshark:
 
+.Output
+[source,text]
+----
+<< OUTPUT ABRIDGED >>
+Arch   Version         Repository                        Size
+===================================================================
+Installing:
+wireshark x86_64 1:3.4.10-6.el9  rhel-9-for-x86_64-appstream-rpms  3.9 M
+Installing dependencies:
+ ModemManager-glib x86_64 1.20.2-1.el9 rhel-9-for-x86_64-baseos-rpms 337 k
+<< OUTPUT ABRIDGED >>
+----
+
 The next section of the output shows a verification status for each
 dependent package. In this case, DNF made sure that 36 other packages
 were up to date.
 
+.Output
+[source,text]
+----
+<< OUTPUT ABRIDGED >>
+  Verifying: nss-sysinit-3.90.0-6.el9_3.x86_64  196/197
+  Verifying: nss-util-3.90.0-6.el9_3.x86_64     197/197
+Installed products updated.
+<< OUTPUT ABRIDGED >>
+----
+
 The final section of the output is a list of all of the packages that
 were installed in support of Wireshark’s installation.
 
+.Output
+[source,text]
+----
+<< OUTPUT ABRIDGED >>
+Installed:
+  ModemManager-glib-1.20.2-1.el9.x86_64
+  abattis-cantarell-fonts-0.301-4.el9.noarch
+  adobe-source-code-pro-fonts-2.030.1.050-12.el9.1.noarch
+  adwaita-cursor-theme-40.1.1-3.el9.noarch
+<< OUTPUT ABRIDGED >>
+
+Complete!
+----
+
 You can verify this installation with the `+dnf list+` command:
 
-[source,bash]
+.Command
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 dnf list wireshark
+----
+
+.Output
+[source,text]
+----
+<< OUTPUT ABRIDGED >>
+Installed Packages
+wireshark.x86_64 1:3.4.10-6.el9  @rhel-9-for-x86_64-appstream-rpms
 ----
 
 This shows how powerful DNF is, as a single command will take care of

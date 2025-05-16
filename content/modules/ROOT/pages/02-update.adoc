@@ -1,45 +1,71 @@
 The `+list+` subcommand is useful for finding out which packages have
 available updates on the system.
 
-[source,bash]
+.Command
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 dnf list updates
+----
+
+.Output
+[source,text]
+----
+<< OUTPUT ABRIDGED >>
+Available Upgrades
+curl.x86_64         7.76.1-29.el9_4     rhel-9-for-x86_64-baseos-rpms
+shim-x64.x86_64     15.8-4.el9_3        rhel-9-for-x86_64-baseos-rpm
+<< OUTPUT ABRIDGED >>
 ----
 
 Many packages on this system have updates available. Specifying a
 package name with `+dnf update+` will constrain this operation to only
 look for that package.
 
-____
-_NOTE:_ If you instead want to make sure your entire system is up to
+NOTE: If you instead want to make sure your entire system is up to
 date, running `+dnf update+` without any other arguments apply updates
-for all packages on your system (including YUM itself).
-____
+for all packages on your system (including DNF itself).
 
-At the time of writing this lab, the *bash* package required an update.
-Let’s update *bash*. Use the `+-y+` option to automatically say yes to
+At the time of writing this lab, the *curl* package required an update.
+Let’s update *curl*. Use the `+-y+` option to automatically say yes to
 any prompts for the purposes of this lab.
 
 Feel free to update any package listed.
 
-[source,bash]
+.Command
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
-dnf -y update bash
+dnf -y update curl
 ----
 
-____
-_NOTE:_ You sometimes see the subcommand `+upgrade+` being used somewhat
+.Output
+[source,text]
+----
+<< OUTPUT ABRIDGED >>
+===============================================================
+ Package     Arch    Version            Repository        Size
+===============================================================
+Upgrading:
+ curl        x86_64  7.76.1-29.el9_4    rhel-9-for-x86_64-baseos-rpms   298 k
+
+Transaction Summary
+===============================================================
+Upgrade  2 Packages
+
+<< OUTPUT ABRIDGED >>
+----
+
+NOTE: You sometimes see the subcommand `+upgrade+` being used somewhat
 interchangeably with `+update+`. The difference between these two
 subcommands is that `+upgrade+` will remove any obsolete packages from
 the system. Often the configuration for DNF is such that these
 subcommands will both carry out the `+upgrade+` operation.
-____
 
 == Removing a package
 
 Removing a package follows the same theme of simplicity.
 
-[source,bash]
+.Command
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 dnf -y remove httpd
 ----
@@ -47,12 +73,49 @@ dnf -y remove httpd
 The extensive output shows you information about which dependent RPMs
 were removed as part of this transaction.
 
+.Output
+[source,text]
+----
+<< OUTPUT ABRIDGED >>
+Removing:
+ httpd              x86_64     2.4.57-5.el9      @rhel-9-for-x86_64-appstream-rpms     59 k
+Removing unused dependencies:
+ httpd-core         x86_64     2.4.57-5.el9      @rhel-9-for-x86_64-appstream-rpms     4.6 M
+ httpd-filesystem   noarch     2.4.57-5.el9      @rhel-9-for-x86_64-appstream-rpms     400
+ mailcap            noarch     2.1.49-5.el9      @rhel-9-for-x86_64-baseos-rpms        78 k
+ mod_http2          x86_64     1.15.19-5.el9_3.1 @rhel-9-for-x86_64-appstream-rpms     385 k
+ mod_lua            x86_64     2.4.57-5.el9      @rhel-9-for-x86_64-appstream-rpms     142 k
+ redhat-logos-httpd noarch     90.4-2.el9        @rhel-9-for-x86_64-appstream-rpms     12 k
+
+<< OUTPUT ABRIDGED >>
+
+Removed:
+httpd-2.4.57-5.el9.x86_64
+httpd-core-2.4.57-5.el9.x86_64
+httpd-filesystem-2.4.57-5.el9.noarch
+mailcap-2.1.49-5.el9.noarch
+mod_http2-1.15.19-5.el9_3.1.x86_64
+mod_lua-2.4.57-5.el9.x86_64
+redhat-logos-httpd-90.4-2.el9.noarch
+
+Complete!
+----
+
 Use the `+list+` subcommand to confirm that the package has been
 uninstalled:
 
-[source,bash]
+.Command
+[source,bash,subs="+macros,+attributes",role=execute]
 ----
 dnf list httpd
+----
+
+.Output
+[source,text]
+----
+<< OUTPUT ABRIDGED >>
+Available Packages
+httpd      x86_64     2.4.57-8.el9     rhel-9-for-x86_64-appstream-rpms
 ----
 
 The package is now listed as _Available_ rather than _Installed_. The
