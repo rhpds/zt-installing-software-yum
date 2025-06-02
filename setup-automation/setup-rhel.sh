@@ -1,16 +1,4 @@
 #!/bin/bash
-subscription-manager register --activationkey=${ACTIVATION_KEY} --org=12451665 --force
-
-echo "Adding wheel" > /root/post-run.log
-usermod -aG wheel rhel
-
-echo "setting password" >> /root/post-run.log
-echo redhat | passwd --stdin rhel
-# modify pam files
-sed -i '/^#/{G;}' /etc/pam.d/password-auth
-sed -i '/^#/{G;}' /etc/pam.d/system-auth
-# install httpd
-dnf install -y httpd
 
 #set up tmux so it has to restart itself whenever the system reboots
 
