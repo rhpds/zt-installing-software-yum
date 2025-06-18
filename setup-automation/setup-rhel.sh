@@ -1,7 +1,13 @@
 #!/bin/bash
 
-#set up tmux so it has to restart itself whenever the system reboots
+dnf downgrade curl -y
+# modify pam files
+sed -i '/^#/{G;}' /etc/pam.d/password-auth
+sed -i '/^#/{G;}' /etc/pam.d/system-auth
+# install httpd
+dnf install -y httpd
 
+#set up tmux so it has to restart itself whenever the system reboots
 #step 1: make a script
 tee ~/startup-tmux.sh << EOF
 TMUX='' tmux new-session -d -s 'rhel-session' > /dev/null 2>&1
