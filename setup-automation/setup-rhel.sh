@@ -1,10 +1,9 @@
 #!/bin/bash
 
-dnf downgrade curl -y
+dnf downgrade git -y
 
-# modify pam files
-sed -i '/^#/{G;}' /etc/pam.d/password-auth
-sed -i '/^#/{G;}' /etc/pam.d/system-auth
+# modify pam file
+echo "# Make a change rpm detects" >> /etc/security/limits.conf
 
 # install httpd moved to instances.yaml
 # dnf install -y httpd

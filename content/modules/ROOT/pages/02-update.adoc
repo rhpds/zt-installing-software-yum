@@ -12,8 +12,10 @@ dnf list updates
 ----
 << OUTPUT ABRIDGED >>
 Available Upgrades
-curl.x86_64         7.76.1-29.el9_4     rhel-9-for-x86_64-baseos-rpms
-shim-x64.x86_64     15.8-4.el9_3        rhel-9-for-x86_64-baseos-rpm
+cloud-init.noarch                                24.4-3.el10_0.2                         rhel-10-for-x86_64-appstream-rpms
+git.x86_64                                       2.47.3-1.el10_0                         rhel-10-for-x86_64-appstream-rpms
+git-all.noarch                                   2.47.3-1.el10_0                         rhel-10-for-x86_64-appstream-rpms
+git-core.x86_64                                  2.47.3-1.el10_0                         rhel-10-for-x86_64-appstream-rpms
 << OUTPUT ABRIDGED >>
 ----
 
@@ -25,32 +27,34 @@ NOTE: If you instead want to make sure your entire system is up to
 date, running `+dnf update+` without any other arguments apply updates
 for all packages on your system (including DNF itself).
 
-At the time of writing this lab, the *curl* package required an update.
-Let’s update *curl*. Use the `+-y+` option to automatically say yes to
+At the time of writing this lab, the *git* package required an update.
+Let’s update *git*. Use the `+-y+` option to automatically say yes to
 any prompts for the purposes of this lab.
 
-Feel free to update any package listed.
+Feel free to update any additional package listed.
 
 .Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-dnf -y update curl
+dnf -y update git
 ----
 
 .Output
 [source,text]
 ----
 << OUTPUT ABRIDGED >>
-===============================================================
- Package     Arch    Version            Repository        Size
-===============================================================
+Dependencies resolved.
+==========================================================================================================================
+ Package                          Architecture   Version                  Repository                                 Size
+==========================================================================================================================
 Upgrading:
- curl        x86_64  7.76.1-29.el9_4    rhel-9-for-x86_64-baseos-rpms   298 k
-
+ git                              x86_64         2.47.3-1.el10_0          rhel-10-for-x86_64-appstream-rpms          51 k
+ git-all                          noarch         2.47.3-1.el10_0          rhel-10-for-x86_64-appstream-rpms         5.5 k
+ git-core                         x86_64         2.47.3-1.el10_0          rhel-10-for-x86_64-appstream-rpms         4.9 M
+<< OUTPUT ABRIDGED >>
 Transaction Summary
 ===============================================================
-Upgrade  2 Packages
-
+Upgrade  15 Packages
 << OUTPUT ABRIDGED >>
 ----
 
@@ -77,26 +81,24 @@ were removed as part of this transaction.
 [source,text]
 ----
 << OUTPUT ABRIDGED >>
+Dependencies resolved.
+==========================================================================================================================
+ Package                 Architecture      Version                    Repository                                     Size
+==========================================================================================================================
 Removing:
- httpd              x86_64     2.4.62-1.el9_5.2      @rhel-9-for-x86_64-appstream-rpms     59 k
-Removing unused dependencies:
- httpd-core         x86_64     2.4.62-5.el9      @rhel-9-for-x86_64-appstream-rpms     4.6 M
- httpd-filesystem   noarch     2.4.62-5.el9      @rhel-9-for-x86_64-appstream-rpms     400
- mailcap            noarch     2.1.49-5.el9      @rhel-9-for-x86_64-baseos-rpms        78 k
- mod_http2          x86_64     2.0.26-2.el9_4.1 @rhel-9-for-x86_64-appstream-rpms     385 k
- mod_lua            x86_64     2.4.62-5.el9      @rhel-9-for-x86_64-appstream-rpms     142 k
- redhat-logos-httpd noarch     90.4-2.el9        @rhel-9-for-x86_64-appstream-rpms     12 k
+ httpd                   x86_64            2.4.63-1.el10              @System                                        56 k
+Removing dependent packages:
+ git-all                 noarch            2.47.3-1.el10_0            @rhel-10-for-x86_64-appstream-rpms              0  
+ git-instaweb            noarch            2.47.3-1.el10_0            @rhel-10-for-x86_64-appstream-rpms             45 k
+
+Transaction Summary
+==========================================================================================================================
+Remove  3 Packages
 
 << OUTPUT ABRIDGED >>
 
 Removed:
-httpd-2.4.62-1.el9_5.2
-httpd-core-2.4.57-5.el9.x86_64
-httpd-filesystem-2.4.57-5.el9.noarch
-mailcap-2.1.49-5.el9.noarch
-mod_http2-1.15.19-5.el9_3.1.x86_64
-mod_lua-2.4.57-5.el9.x86_64
-redhat-logos-httpd-90.4-2.el9.noarch
+  git-all-2.47.3-1.el10_0.noarch          git-instaweb-2.47.3-1.el10_0.noarch          httpd-2.4.63-1.el10.x86_64         
 
 Complete!
 ----
@@ -115,7 +117,7 @@ dnf list httpd
 ----
 << OUTPUT ABRIDGED >>
 Available Packages
-httpd      x86_64     2.4.62-1.el9_5.2     rhel-9-for-x86_64-appstream-rpms
+httpd.x86_64    2.4.63-1.el10    rhel-10-for-x86_64-appstream-rpms
 ----
 
 The package is now listed as _Available_ rather than _Installed_. The
