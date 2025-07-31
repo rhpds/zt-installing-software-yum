@@ -7,7 +7,7 @@ validation functionality:
 .Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-rm -f /usr/share/icons/hicolor/256x256/apps/wireshark.png
+rm -f /usr/bin/wireshark
 ----
 
 This command has no expected output.
@@ -24,7 +24,7 @@ rpm -V wireshark
 .Output
 [source,text]
 ----
-missing     /usr/share/icons/hicolor/256x256/apps/wireshark.png
+missing    /usr/bin/wireshark
 ----
 
 Now that you have seen there is a missing file, reinstall the Wireshark
@@ -40,26 +40,26 @@ dnf -y reinstall wireshark
 [source,text]
 ----
 << OUTPUT ABRIDGED >>
-Arch   Version        Repository                        Size
-===================================================================
+==========================================================================================================================
+ Package              Architecture      Version                        Repository                                    Size
+==========================================================================================================================
 Reinstalling:
-wireshark
-x86_64 1:3.4.10-7.el9 rhel-9-for-x86_64-appstream-rpms 3.7 M
+ wireshark            x86_64            1:4.4.2-3.el10_0               rhel-10-for-x86_64-appstream-rpms            4.6 M
 << OUTPUT ABRIDGED >>
 ----
 
-Check that *wireshark.png* has been restored:
+Check that *wireshark* has been restored:
 
 .Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-ls /usr/share/icons/hicolor/256x256/apps/
+ls -alZ /usr/bin/wireshark
 ----
 
 .Output
 [source,text]
 ----
-fedora-logo-icon.png wireshark.png
+-rwxr-xr-x. 1 root root system_u:object_r:wireshark_exec_t:s0 9780392 Jun  5 00:00 /usr/bin/wireshark
 ----
 
 The command `+rpm -V+` is useful for more than just finding missing
@@ -76,15 +76,29 @@ rpm -V pam
 .Output
 [source,text]
 ----
-....L....  c /etc/pam.d/fingerprint-auth
-....L....  c /etc/pam.d/password-auth
-....L....  c /etc/pam.d/postlogin
-....L....  c /etc/pam.d/smartcard-auth
-....L....  c /etc/pam.d/system-auth
+S.5....T.  c /etc/security/limits.conf
 ----
 
-This query returns files with unexpected criteria. The first column of this output tells you that both
-of these files have an unexpected size, checksum, and timestamp. Both of
-these files are configuration files, so it makes sense that they would
-be modified after installation to suit the purpose of this particular
-system.
+This query returns files with unexpected criteria. The columns of this output shows
+this file has an unexpected size, digest, and timestamp. The `c` before the filename 
+indicates this file is a configuration file, so it makes sense that it may
+be modified after installation to suit the purpose of this particular system.
+
+The columns will either contain a letter for the difference or a dot:
+
+.rpm Verify attributes
+* *S* -  file **S**ize differs
+* *M* -  **M**ode differs (includes permissions and file type)
+* *5* -  digest (formerly MD**5** sum) differs
+* *D* -  **D**evice major/minor number mismatch
+* *L* -  read**L**ink path mismatch
+* *U* -  **U**ser ownership differs
+* *G* -  **G**roup ownership differs
+* *T* -  m**T**ime differs
+* *P* -  ca**P**abilities differ
+
+You've now used common RHEL package commands to handle different common
+maintenance and management operations. These will come in handy in 
+many situations when dealing with software on a RHEL host. If you'd 
+like to go further, you can try one of our other packaging or management
+related labs.

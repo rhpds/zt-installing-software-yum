@@ -35,27 +35,34 @@ packages that must be installed as dependencies for Wireshark:
 [source,text]
 ----
 << OUTPUT ABRIDGED >>
-Arch   Version         Repository                        Size
-===================================================================
+Dependencies resolved.
+==========================================================================================================================
+ Package                                    Arch      Version                 Repository                             Size
+==========================================================================================================================
 Installing:
-wireshark x86_64 1:3.4.10-6.el9  rhel-9-for-x86_64-appstream-rpms  3.9 M
+ wireshark                                  x86_64    1:4.4.2-3.el10_0        rhel-10-for-x86_64-appstream-rpms     4.6 M
 Installing dependencies:
- ModemManager-glib x86_64 1.20.2-1.el9 rhel-9-for-x86_64-baseos-rpms 337 k
+ ModemManager-glib                          x86_64    1.22.0-7.el10           rhel-10-for-x86_64-baseos-rpms        326 k
 << OUTPUT ABRIDGED >>
+Installing weak dependencies:
+ dconf                                      x86_64    0.40.0-16.el10          rhel-10-for-x86_64-appstream-rpms     111 k
+ exiv2                                      x86_64    0.28.3-3.el10_0.2       rhel-10-for-x86_64-appstream-rpms     2.1 M
 ----
 
-The next section of the output shows a verification status for each
-dependent package. In this case, DNF made sure that 36 other packages
-were up to date.
+The next section of the output shows an action and status for each
+dependent package. In this case, DNF made sure that 136 other packages
+were installed or up to date.
 
 .Output
 [source,text]
 ----
 << OUTPUT ABRIDGED >>
-  Verifying: nss-sysinit-3.90.0-6.el9_3.x86_64  196/197
-  Verifying: nss-util-3.90.0-6.el9_3.x86_64     197/197
-Installed products updated.
+Running transaction
+  Preparing        :                                                                                                  1/1 
+  Installing       : cairo-1.18.2-2.el10.x86_64                                                                     1/138 
+  Installing       : libjpeg-turbo-3.0.2-4.el10.x86_64                                                              2/138
 << OUTPUT ABRIDGED >>
+Installed products updated.
 ----
 
 The final section of the output is a list of all of the packages that
@@ -66,10 +73,12 @@ were installed in support of Wireshark’s installation.
 ----
 << OUTPUT ABRIDGED >>
 Installed:
-  ModemManager-glib-1.20.2-1.el9.x86_64
-  abattis-cantarell-fonts-0.301-4.el9.noarch
-  adobe-source-code-pro-fonts-2.030.1.050-12.el9.1.noarch
-  adwaita-cursor-theme-40.1.1-3.el9.noarch
+  ModemManager-glib-1.22.0-7.el10.x86_64
+  adwaita-cursor-theme-46.0-3.el10.noarch                   
+  adwaita-icon-theme-46.0-3.el10.noarch
+  alsa-lib-1.2.13-2.el10.x86_64                             
+  at-spi2-atk-2.52.0-3.el10.x86_64
+  at-spi2-core-2.52.0-3.el10.x86_64
 << OUTPUT ABRIDGED >>
 
 Complete!
@@ -88,7 +97,7 @@ dnf list wireshark
 ----
 << OUTPUT ABRIDGED >>
 Installed Packages
-wireshark.x86_64 1:3.4.10-7.el9  @rhel-9-for-x86_64-appstream-rpms
+wireshark.x86_64    1:4.4.2-3.el10_0     @rhel-10-for-x86_64-appstream-rpms
 ----
 
 This shows how powerful DNF is, as a single command will take care of

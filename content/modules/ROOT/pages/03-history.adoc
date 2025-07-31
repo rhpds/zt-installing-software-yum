@@ -14,45 +14,63 @@ executing rollbacks.
 .Output
 [source,text]
 ----
-ID| Command                  | Date and time    | Action(s)| Altered
-------------------------------------------------------------------
-9 | remove httpd             | 2024-06-12 19:01 | Removed  | 2 EE
-8 | update curl -y           | 2024-06-12 18:56 | Upgrade  | 2
-7 | install -y wireshark     | 2024-06-12 18:45 | Install  | 197 EE
+<< OUTPUT ABRIDGED >>
+ID     | Command line                                                        | Date and time    | Action(s)      | Altered
+--------------------------------------------------------------------------------------------------------------------------
+     6 | -y remove httpd                                                     | 2025-07-31 20:01 | Removed        |    3   
+     5 | -y upgrade git                                                      | 2025-07-31 19:58 | Upgrade        |   15   
+     4 | -y install wireshark                                                | 2025-07-31 19:48 | Install        |  138 EE
+<< OUTPUT ABRIDGED >>
 ----
 
-This subcommand is also useful for rolling back transactions if you
-erroneously install or update a package, as it cleans up all of the
+This subcommand is also useful for rolling back a series of transactions 
+if you erroneously install or update a package, as it cleans up all of the
 dependencies associated with the package. Rollback the state of your
 system to before you uninstalled *httpd*:
 
 .Command
 [source,bash,subs="+macros,+attributes",role=execute]
 ----
-dnf -y history rollback 8
+dnf -y history rollback 5
 ----
 
-NOTE: The number 8 in the above command signifies the point in time to rollback dnf transactions. 
-The system will be in the same state as transaction ID 8, or before you removed *httpd*.
+[NOTE]
+====
+The number 5 in the above command signifies the point in time to rollback all 
+following dnf transactions. The system will be in the same state as transaction ID 5,
+or before you removed *httpd*.
 
-You can use other relative offsets, such as `+last-3+`, or you can use
-absolute transaction IDs. For example, `+dnf history rollback 2+` would
-rollback to the transaction where *rsync* was installed.
+You can also use relative offsets, such as `+last-3+`, which will set the rollback point 
+to the transaction 3 actions earlier than the most recent.
+====
 
 .Output
 [source,text]
 ----
 << OUTPUT ABRIDGED >>
-Installed:
-  httpd-2.4.57-5.el9.x86_64
-  httpd-core-2.4.57-5.el9.x86_64
-
-Complete!
+Dependencies resolved.
+==========================================================================================================================
+ Package                 Architecture      Version                     Repository                                    Size
+==========================================================================================================================
+Installing:
+ httpd                   x86_64            2.4.63-1.el10               rhel-10-for-x86_64-appstream-rpms             53 k
+Installing dependencies:
+ git-all                 noarch            2.47.3-1.el10_0             rhel-10-for-x86_64-appstream-rpms            5.5 k
+ git-instaweb            noarch            2.47.3-1.el10_0             rhel-10-for-x86_64-appstream-rpms             24 k
+Installing weak dependencies:
+ mod_http2               x86_64            2.0.29-2.el10               rhel-10-for-x86_64-appstream-rpms            169 k
+ mod_lua                 x86_64            2.4.63-1.el10               rhel-10-for-x86_64-appstream-rpms             61 k
+<< OUTPUT ABRIDGED >>
+Warning, the following problems occurred while running a transaction:
+  Package nevra "mod_http2-2.0.29-2.el10.x86_64", which is not present in the transaction file, was pulled into the transaction.
+  Package nevra "mod_lua-2.4.63-1.el10.x86_64", which is not present in the transaction file, was pulled into the transaction.
 ----
 
-This command reinstalled the RPMs that are part of *httpd* (including
-all dependencies), restoring the system state to how it was before the
-previous transaction.
+This command re-runs the dnf command listed in the transaction, 
+reinstalling the RPMs that are part of *httpd* (including
+all dependencies). This is not a restore of the system state 
+to how it was before the previous transaction from a snapshot or other means.
+New dependencies or package versions may be installed if the history is old.
 
 There are many more subcommands that you can use to customize how DNF
 behaves. Check out this
@@ -60,5 +78,5 @@ https://access.redhat.com/sites/default/files/attachments/rh_yum_cheatsheet_1214
 Command Cheat Sheet for RHEL^] for more info.
 
 NOTE: DNF and YUM are
-syntactically identical. You can refer to the YUM cheat sheet for
-subcommands that will all work with DNF.
+syntactically similar. You can refer to the YUM cheat sheet for
+subcommands that will work with DNF.
