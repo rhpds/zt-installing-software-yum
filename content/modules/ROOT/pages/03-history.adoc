@@ -14,11 +14,13 @@ executing rollbacks.
 .Output
 [source,text]
 ----
+<< OUTPUT ABRIDGED >>
 ID     | Command line                                                        | Date and time    | Action(s)      | Altered
 --------------------------------------------------------------------------------------------------------------------------
      6 | -y remove httpd                                                     | 2025-07-31 20:01 | Removed        |    3   
      5 | -y upgrade git                                                      | 2025-07-31 19:58 | Upgrade        |   15   
      4 | -y install wireshark                                                | 2025-07-31 19:48 | Install        |  138 EE
+<< OUTPUT ABRIDGED >>
 ----
 
 This subcommand is also useful for rolling back a series of transactions 
@@ -32,12 +34,15 @@ system to before you uninstalled *httpd*:
 dnf -y history rollback 5
 ----
 
-NOTE: The number 5 in the above command signifies the point in time to rollback all 
+[NOTE]
+====
+The number 5 in the above command signifies the point in time to rollback all 
 following dnf transactions. The system will be in the same state as transaction ID 5,
 or before you removed *httpd*.
 
 You can also use relative offsets, such as `+last-3+`, which will set the rollback point 
 to the transaction 3 actions earlier than the most recent.
+====
 
 .Output
 [source,text]

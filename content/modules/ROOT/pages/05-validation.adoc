@@ -97,3 +97,8 @@ The columns will either contain a letter for the difference or a dot:
 * *T* -  m**T**ime differs
 * *P* -  ca**P**abilities differ
 
+You've now used common RHEL package commands to handle different common
+maintenance and management operations. These will come in handy in 
+many situations when dealing with software on a RHEL host. If you'd 
+like to go further, you can try one of our other packaging or management
+related labs.
